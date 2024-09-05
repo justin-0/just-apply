@@ -3,7 +3,6 @@ import { db } from "../lib/prisma";
 import { lucia } from "../lib/auth";
 import { verify } from "@node-rs/argon2";
 
-import type { User } from "../lib/types/user";
 import type { Context } from "../lib/context";
 import { ObjectId } from "mongodb";
 

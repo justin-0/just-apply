@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { signupRouter } from "./routes/signup";
 import { lucia } from "./lib/auth";
 import { Context } from "./lib/context";
+import { loginRouter } from "./routes/login";
 
 const app = new Hono<Context>();
 
@@ -30,6 +31,7 @@ app.use("*", async (c, next) => {
 });
 
 app.route("/", signupRouter);
+app.route("/", loginRouter);
 app.get("/", (c) => {
   const session = c.get("session");
 

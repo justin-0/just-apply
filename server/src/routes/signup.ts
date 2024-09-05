@@ -50,6 +50,7 @@ signupRouter.post("/signup", async (c) => {
     c.header("Set-Cookie", lucia.createSessionCookie(session.id).serialize(), {
       append: true,
     });
+    return c.json({ success: true }, 200);
   } catch (e) {
     if (e instanceof Error) {
       console.log("SIGN_UP: ERROR", e.message);

@@ -3,8 +3,26 @@ import { signupRouter } from "./routes/signup";
 import { lucia } from "./lib/auth";
 import { Context } from "./lib/context";
 import { loginRouter } from "./routes/login";
+import { meRouter } from "./routes/me";
+import { verifyRequestOrigin } from "lucia";
 
 const app = new Hono<Context>();
+
+app.use("*", async (c, next) => {
+  if (c.req.method === "GET") {
+    return next();
+  }
+  const originHeader = c.req.header("Origin") ?? null;
+  const hostHeader = c.req.header("Host") ?? null;
+  if (
+    !originHeader ||
+    !hostHeader ||
+    !verifyRequestOrigin(originHeader, [hostHeader])
+  ) {
+    return c.body(null, 403);
+  }
+  return next();
+});
 
 app.use("*", async (c, next) => {
   const sessionId = lucia.readSessionCookie(c.req.header("Cookie") ?? "");
@@ -32,14 +50,6 @@ app.use("*", async (c, next) => {
 
 app.route("/", signupRouter);
 app.route("/", loginRouter);
-app.get("/", (c) => {
-  const session = c.get("session");
-
-  if (!session) {
-    return c.json({ message: "Unauthorised" });
-  }
-
-  return c.json({ message: "authorised" });
-});
+app.route("/", meRouter);
 
 export default app;

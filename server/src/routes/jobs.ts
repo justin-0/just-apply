@@ -19,19 +19,17 @@ jobsRouter.post("/job", zValidator("json", jobSchema), async (c) => {
   if (!user) {
     return c.json({ message: "Must be signed in, to create job" }, 401);
   }
+
+  // If result is not valid schema, validator will return a zod error immediately
   const result = c.req.valid("json");
 
-  try {
-    const post = await db.job.create({
-      data: {
-        role: result.role,
-        company: result.company,
-        status: result.status,
-        userId: user.id,
-      },
-    });
-    return c.json({ success: true, post }, 201);
-  } catch (e) {
-    console.log(e);
-  }
+  const post = await db.job.create({
+    data: {
+      role: result.role,
+      company: result.company,
+      status: result.status,
+      userId: user.id,
+    },
+  });
+  return c.json({ success: true, post }, 201);
 });

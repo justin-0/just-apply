@@ -1,3 +1,3 @@
 - [] Update base api
-- [] Create job route
-- [] POST method for job route
+- [x] Create job route
+- [x] POST method for job route

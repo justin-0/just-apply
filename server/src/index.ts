@@ -5,24 +5,25 @@ import { Context } from "./lib/context";
 import { loginRouter } from "./routes/login";
 import { meRouter } from "./routes/me";
 import { verifyRequestOrigin } from "lucia";
+import { jobsRouter } from "./routes/jobs";
 
 const app = new Hono<Context>();
 
-app.use("*", async (c, next) => {
-  if (c.req.method === "GET") {
-    return next();
-  }
-  const originHeader = c.req.header("Origin") ?? null;
-  const hostHeader = c.req.header("Host") ?? null;
-  if (
-    !originHeader ||
-    !hostHeader ||
-    !verifyRequestOrigin(originHeader, [hostHeader])
-  ) {
-    return c.body(null, 403);
-  }
-  return next();
-});
+// app.use("*", async (c, next) => {
+//   if (c.req.method === "GET") {
+//     return next();
+//   }
+//   const originHeader = c.req.header("Origin") ?? null;
+//   const hostHeader = c.req.header("Host") ?? null;
+//   if (
+//     !originHeader ||
+//     !hostHeader ||
+//     !verifyRequestOrigin(originHeader, [hostHeader])
+//   ) {
+//     return c.body(null, 403);
+//   }
+//   return next();
+// });
 
 app.use("*", async (c, next) => {
   const sessionId = lucia.readSessionCookie(c.req.header("Cookie") ?? "");
@@ -51,5 +52,6 @@ app.use("*", async (c, next) => {
 app.route("/", signupRouter);
 app.route("/", loginRouter);
 app.route("/", meRouter);
+app.route("/", jobsRouter);
 
 export default app;

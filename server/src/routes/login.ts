@@ -9,8 +9,9 @@ import { ObjectId } from "mongodb";
 export const loginRouter = new Hono<Context>();
 
 loginRouter.post("/login", async (c) => {
+  console.log("LOGIN START");
   const body: { username: string; password: string } = await c.req.json();
-
+  console.log("LOGIN BODY", body);
   const username: string | null = body.username ?? null;
   if (!username) {
     return c.json({ message: "Invalid credentials" }, 401);
@@ -46,7 +47,6 @@ loginRouter.post("/login", async (c) => {
       sessionId,
     }
   );
-  console.log("SIGN_UP: SESSION CREATED", session);
 
   c.header("Set-Cookie", lucia.createSessionCookie(session.id).serialize(), {
     append: true,

@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { db } from "../lib/prisma";
 import { Context } from "../lib/context";
 import { zValidator } from "@hono/zod-validator";
-import { z, ZodError } from "zod";
+import { z } from "zod";
 
 export const jobSchema = z.object({
   role: z.string().min(1, { message: "Role is required" }),

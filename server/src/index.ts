@@ -7,7 +7,7 @@ import { meRouter } from "./routes/me";
 import { verifyRequestOrigin } from "lucia";
 import { jobsRouter } from "./routes/jobs";
 
-const app = new Hono<Context>().basePath("/api");
+const app = new Hono<Context>();
 
 // app.use("*", async (c, next) => {
 //   if (c.req.method === "GET") {
@@ -50,6 +50,7 @@ app.use("*", async (c, next) => {
 });
 
 const routes = app
+  .basePath("/api")
   .route("/", signupRouter)
   .route("/", loginRouter)
   .route("/", meRouter)

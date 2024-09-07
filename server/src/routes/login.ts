@@ -6,9 +6,7 @@ import { verify } from "@node-rs/argon2";
 import type { Context } from "../lib/context";
 import { ObjectId } from "mongodb";
 
-export const loginRouter = new Hono<Context>();
-
-loginRouter.post("/login", async (c) => {
+export const loginRouter = new Hono<Context>().post("/login", async (c) => {
   console.log("LOGIN START");
   const body: { username: string; password: string } = await c.req.json();
   console.log("LOGIN BODY", body);

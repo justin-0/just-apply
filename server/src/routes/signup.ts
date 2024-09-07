@@ -5,9 +5,7 @@ import { hash } from "@node-rs/argon2";
 import { ObjectId } from "mongodb";
 import { Context } from "../lib/context";
 
-export const signupRouter = new Hono<Context>();
-
-signupRouter.post("/signup", async (c) => {
+export const signupRouter = new Hono<Context>().post("/signup", async (c) => {
   const body = await c.req.json();
 
   const username: string | null = body.username ?? null;

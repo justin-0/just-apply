@@ -12,24 +12,26 @@ export const jobSchema = z.object({
   }),
 });
 
-export const jobsRouter = new Hono<Context>();
+export const jobsRouter = new Hono<Context>().post(
+  "/job",
+  zValidator("json", jobSchema),
+  async (c) => {
+    const user = c.get("user");
+    if (!user) {
+      return c.json({ message: "Must be signed in, to create job" }, 401);
+    }
 
-jobsRouter.post("/job", zValidator("json", jobSchema), async (c) => {
-  const user = c.get("user");
-  if (!user) {
-    return c.json({ message: "Must be signed in, to create job" }, 401);
+    // If result is not valid schema, validator will return a zod error immediately
+    const result = c.req.valid("json");
+
+    const post = await db.job.create({
+      data: {
+        role: result.role,
+        company: result.company,
+        status: result.status,
+        userId: user.id,
+      },
+    });
+    return c.json({ success: true, post }, 201);
   }
-
-  // If result is not valid schema, validator will return a zod error immediately
-  const result = c.req.valid("json");
-
-  const post = await db.job.create({
-    data: {
-      role: result.role,
-      company: result.company,
-      status: result.status,
-      userId: user.id,
-    },
-  });
-  return c.json({ success: true, post }, 201);
-});
+);

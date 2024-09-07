@@ -4,9 +4,7 @@ import { lucia } from "../lib/auth";
 
 import type { Context } from "../lib/context";
 
-export const meRouter = new Hono<Context>();
-
-meRouter.get("/me", async (c) => {
+export const meRouter = new Hono<Context>().get("/me", async (c) => {
   const session = c.get("session");
   const user = c.get("user");
 

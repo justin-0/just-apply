@@ -4,7 +4,7 @@
 - [x] Setup RPC
 - [x] Add Hono RPC client
 - [] Connect RPC to react query
-- [] Signup and signin routes
+- [x] Signup and signin routes
 - [] Create forms for both actions
 - [] Create a profile route
 - [] Fetch user data and display in profile

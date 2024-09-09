@@ -1,6 +1,12 @@
-import { queryOptions } from "@tanstack/react-query";
+import {
+  queryOptions,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { AppRouter } from "../../../server/src/index";
 import { hc } from "hono/client";
+import { Job } from "@/components/data-table/columns";
+import { useNavigate } from "@tanstack/react-router";
 
 export const client = hc<AppRouter>("/");
 
@@ -41,4 +47,19 @@ export const deleteJob = async (id: string) => {
   });
   const result = await response.json();
   return result;
+};
+
+export const useDeleteJobMutation = () => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationFn: deleteJob,
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["get-all-jobs"] });
+      // Refresh the current page
+      navigate({ to: "/overview" });
+    },
+  });
 };

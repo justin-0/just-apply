@@ -6,12 +6,12 @@
 - [x] Connect RPC to react query
 - [x] Signup and signin routes
 - [x] sign up form
-- [] sign in form
+- [x] sign in form
 - [] sign out functionality
 - [x] Create a profile route
 - [x] Fetch user data and display in profile
-- [] new job form and route
-- [] dashboard route
+- [x] new job form and route
+- [x] overview route
 - [] data table to display data
 - [] update job via form - use sheet? modal?
 - [] delete job from table - dialog?

@@ -12,10 +12,8 @@ export const jobSchema = z.object({
   }),
 });
 
-export const jobsRouter = new Hono<Context>().post(
-  "/job",
-  zValidator("json", jobSchema),
-  async (c) => {
+export const jobsRouter = new Hono<Context>()
+  .post("/job", zValidator("json", jobSchema), async (c) => {
     const user = c.get("user");
     if (!user) {
       return c.json({ message: "Must be signed in, to create job" }, 401);
@@ -28,10 +26,20 @@ export const jobsRouter = new Hono<Context>().post(
       data: {
         role: result.role,
         company: result.company,
-        status: "Applied",
+        status: result.status,
         userId: user.id,
       },
     });
     return c.json({ success: true, post }, 201);
-  }
-);
+  })
+  .get("/job", async (c) => {
+    const user = c.get("user");
+
+    const jobs = await db.job.findMany({
+      where: {
+        userId: user?.id,
+      },
+    });
+
+    return c.json({ jobs });
+  });

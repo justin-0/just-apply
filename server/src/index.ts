@@ -5,7 +5,7 @@ import { Context } from "./lib/context";
 import { loginRouter } from "./routes/login";
 import { meRouter } from "./routes/me";
 import { verifyRequestOrigin } from "lucia";
-import { jobsRouter } from "./routes/jobs";
+import jobsRouter from "./routes/jobs";
 
 const app = new Hono<Context>();
 

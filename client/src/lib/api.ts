@@ -19,23 +19,26 @@ export const userOptions = () => {
   });
 };
 
-export const getJobs = async () => {
+const currentJobs = async () => {
   const response = await client.api.job.$get();
-  const result = response.json();
+  const result = await response.json();
 
   return result;
 };
 
+export const getJobsOptions = () => {
+  return queryOptions({
+    queryKey: ["get-all-jobs"],
+    queryFn: () => currentJobs(),
+  });
+};
+
 export const deleteJob = async (id: string) => {
-  try {
-    const response = await client.api.job[":id"].$delete({
-      param: {
-        id,
-      },
-    });
-    const result = await response.json();
-    return result;
-  } catch (error) {
-    console.log(error);
-  }
+  const response = await client.api.job[":id"].$delete({
+    param: {
+      id,
+    },
+  });
+  const result = await response.json();
+  return result;
 };

@@ -12,7 +12,7 @@ export const jobSchema = z.object({
   }),
 });
 
-export const jobsRouter = new Hono<Context>()
+const jobsRouter = new Hono<Context>()
   .post("/job", zValidator("json", jobSchema), async (c) => {
     const user = c.get("user");
     if (!user) {
@@ -35,20 +35,18 @@ export const jobsRouter = new Hono<Context>()
   .get("/job", async (c) => {
     const user = c.get("user");
 
-    try {
-      const jobs = await db.job.findMany({
-        where: {
-          userId: user?.id,
-        },
-        select: {
-          id: true,
-          status: true,
-          role: true,
-          company: true,
-        },
-      });
-      return c.json({ jobs });
-    } catch (error) {}
+    const jobs = await db.job.findMany({
+      where: {
+        userId: user?.id,
+      },
+      select: {
+        id: true,
+        status: true,
+        role: true,
+        company: true,
+      },
+    });
+    return c.json({ jobs }, 200);
   })
   .delete("/job/:id", async (c) => {
     const user = c.get("user");
@@ -61,24 +59,21 @@ export const jobsRouter = new Hono<Context>()
       return c.json({ message: "ID required" }, 401);
     }
 
-    try {
-      const job = await db.job.findUnique({
-        where: {
-          id,
-        },
-      });
+    const job = await db.job.findUnique({
+      where: {
+        id,
+      },
+    });
 
-      if (user.id !== job?.userId) {
-        return c.json({ message: "Unauthorized" }, 401);
-      }
+    if (user.id !== job?.userId) {
+      return c.json({ message: "Unauthorized" }, 401);
+    }
 
-      await db.job.delete({
-        where: { id },
-      });
+    await db.job.delete({
+      where: { id },
+    });
 
-      return c.json(
-        { success: true, message: "Job deleted successfully" },
-        200
-      );
-    } catch (error) {}
+    return c.json({ success: true, message: "Job deleted successfully" }, 200);
   });
+
+export default jobsRouter;

@@ -39,6 +39,12 @@ export const jobsRouter = new Hono<Context>()
       where: {
         userId: user?.id,
       },
+      select: {
+        id: true,
+        status: true,
+        role: true,
+        company: true,
+      },
     });
 
     return c.json({ jobs });

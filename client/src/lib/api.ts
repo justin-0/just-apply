@@ -18,3 +18,10 @@ export const userOptions = () => {
     staleTime: Infinity,
   });
 };
+
+export const getJobs = async () => {
+  const response = await client.api.job.$get();
+  const result = response.json();
+
+  return result;
+};

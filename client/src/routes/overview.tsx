@@ -1,36 +1,29 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { DataTable } from "@/components/data-table/data-table";
-import { columns, Payment } from "@/components/data-table/columns";
+import { columns } from "@/components/data-table/columns";
+import { useQuery } from "@tanstack/react-query";
+import { getJobs } from "@/lib/api";
 
 export const Route = createFileRoute("/overview")({
   component: () => <Overview />,
 });
 
 function Overview() {
-  const data: Payment[] = [
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 1100,
-      status: "pending",
-      email: "z@example.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-  ];
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["get-all-jobs"],
+    queryFn: () => getJobs(),
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>An error occurred: {error.message}</div>;
 
   return (
     <div>
-      <DataTable columns={columns} data={data} />
+      {data && data.jobs ? (
+        <DataTable columns={columns} data={data.jobs} />
+      ) : (
+        <div>No jobs data available</div>
+      )}
     </div>
   );
 }

@@ -8,6 +8,7 @@ export const Route = createFileRoute("/profile")({
 
 function Profile() {
   const auth = useAuth();
+
   return (
     <div>
       <p>{`Welcome back ${auth.user?.username}`}</p>

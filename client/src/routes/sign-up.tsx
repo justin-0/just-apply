@@ -41,8 +41,9 @@ function Signup() {
 
     const result = await response.json();
 
+    // TODO - redirect to profile
     if (result) {
-      navigate({ to: "/" });
+      navigate({ to: "/profile" });
     }
 
     console.log("USER CREATED: ", result);

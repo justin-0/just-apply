@@ -12,6 +12,8 @@
 - [x] Fetch user data and display in profile
 - [x] new job form and route
 - [x] overview route
-- [] data table to display data
+- [x] data table to display data
 - [] update job via form - use sheet? modal?
 - [] delete job from table - dialog?
+- [] jobs delete endpoint
+- [] jobs update endpoint

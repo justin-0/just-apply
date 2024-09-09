@@ -10,6 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { deleteJob } from "@/lib/api";
 
 export type Job = {
   id: string;
@@ -44,12 +45,11 @@ export const columns: ColumnDef<Job>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => console.log(row.original.id)}>
+            <DropdownMenuItem onClick={async () => deleteJob(row.original.id)}>
               Delete Application
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem>Edit Application</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

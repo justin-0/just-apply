@@ -25,3 +25,17 @@ export const getJobs = async () => {
 
   return result;
 };
+
+export const deleteJob = async (id: string) => {
+  try {
+    const response = await client.api.job[":id"].$delete({
+      param: {
+        id,
+      },
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};

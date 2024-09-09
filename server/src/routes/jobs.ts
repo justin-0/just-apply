@@ -81,14 +81,4 @@ export const jobsRouter = new Hono<Context>()
         200
       );
     } catch (error) {}
-
-    const job = await db.job.delete({
-      where: {
-        id,
-      },
-    });
-
-    if (job) {
-      return c.json({ success: true }, 200);
-    }
   });

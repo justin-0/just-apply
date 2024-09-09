@@ -35,17 +35,60 @@ export const jobsRouter = new Hono<Context>()
   .get("/job", async (c) => {
     const user = c.get("user");
 
-    const jobs = await db.job.findMany({
+    try {
+      const jobs = await db.job.findMany({
+        where: {
+          userId: user?.id,
+        },
+        select: {
+          id: true,
+          status: true,
+          role: true,
+          company: true,
+        },
+      });
+      return c.json({ jobs });
+    } catch (error) {}
+  })
+  .delete("/job/:id", async (c) => {
+    const user = c.get("user");
+    if (!user) {
+      return c.json({ message: "Unauthorized" }, 401);
+    }
+
+    const id = c.req.param("id");
+    if (!id) {
+      return c.json({ message: "ID required" }, 401);
+    }
+
+    try {
+      const job = await db.job.findUnique({
+        where: {
+          id,
+        },
+      });
+
+      if (user.id !== job?.userId) {
+        return c.json({ message: "Unauthorized" }, 401);
+      }
+
+      await db.job.delete({
+        where: { id },
+      });
+
+      return c.json(
+        { success: true, message: "Job deleted successfully" },
+        200
+      );
+    } catch (error) {}
+
+    const job = await db.job.delete({
       where: {
-        userId: user?.id,
-      },
-      select: {
-        id: true,
-        status: true,
-        role: true,
-        company: true,
+        id,
       },
     });
 
-    return c.json({ jobs });
+    if (job) {
+      return c.json({ success: true }, 200);
+    }
   });

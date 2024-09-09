@@ -1,5 +1,5 @@
-import { userOptions } from "@/lib/api";
-import { useQuery } from "@tanstack/react-query";
+"use client";
+import { useAuth } from "@/context/authcontext";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/profile")({
@@ -7,20 +7,10 @@ export const Route = createFileRoute("/profile")({
 });
 
 function Profile() {
-  const { data, isPending, isError, error } = useQuery(userOptions());
-  console.log(data);
-
-  if (isPending) {
-    return <span>Loading...</span>;
-  }
-
-  if (isError) {
-    return <span>Error: {error.message}</span>;
-  }
-
+  const auth = useAuth();
   return (
     <div>
-      <p>{`Welcome back ${data.user?.username}`}</p>
+      <p>{`Welcome back ${auth.user?.username}`}</p>
     </div>
   );
 }

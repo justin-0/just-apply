@@ -51,6 +51,7 @@ function Signup() {
 
   return (
     <div>
+      <h3>Sign up</h3>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
@@ -79,7 +80,7 @@ function Signup() {
               </FormItem>
             )}
           />
-          <Button>Submit</Button>
+          <Button disabled={form.formState.isSubmitting}>Submit</Button>
         </form>
       </Form>
     </div>

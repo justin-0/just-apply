@@ -28,7 +28,7 @@ export const jobsRouter = new Hono<Context>().post(
       data: {
         role: result.role,
         company: result.company,
-        status: result.status,
+        status: "Applied",
         userId: user.id,
       },
     });

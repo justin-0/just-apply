@@ -1,7 +1,6 @@
 import { Hono } from "hono";
 import { db } from "../lib/prisma";
 import { lucia } from "../lib/auth";
-import { verify } from "@node-rs/argon2";
 
 import type { Context } from "../lib/context";
 import { ObjectId } from "mongodb";
@@ -29,13 +28,6 @@ export const loginRouter = new Hono<Context>().post("/login", async (c) => {
   if (!existingUser) {
     return c.json({ message: "Invalid credentials" }, 401);
   }
-
-  const validPassword = await verify(existingUser.hashed_password, password, {
-    memoryCost: 19456,
-    timeCost: 2,
-    outputLen: 32,
-    parallelism: 1,
-  });
 
   const sessionId = new ObjectId().toString();
   const session = await lucia.createSession(

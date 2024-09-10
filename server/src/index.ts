@@ -4,8 +4,9 @@ import { lucia } from "./lib/auth";
 import { Context } from "./lib/context";
 import { loginRouter } from "./routes/login";
 import { meRouter } from "./routes/me";
-import { verifyRequestOrigin } from "lucia";
+// import { verifyRequestOrigin } from "lucia";
 import jobsRouter from "./routes/jobs";
+import { serveStatic } from "hono/bun";
 
 const app = new Hono<Context>();
 
@@ -55,6 +56,9 @@ const routes = app
   .route("/", loginRouter)
   .route("/", meRouter)
   .route("/", jobsRouter);
+
+app.get("*", serveStatic({ root: "./client/dist" }));
+app.get("*", serveStatic({ path: "./client/dist/index.html" }));
 
 export default app;
 export type AppRouter = typeof routes;

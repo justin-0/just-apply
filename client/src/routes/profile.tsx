@@ -1,4 +1,3 @@
-"use client";
 import { useAuth } from "@/context/authcontext";
 import { createFileRoute } from "@tanstack/react-router";
 

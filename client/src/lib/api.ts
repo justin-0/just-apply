@@ -5,7 +5,6 @@ import {
 } from "@tanstack/react-query";
 import { AppRouter } from "../../../server/src/index";
 import { hc } from "hono/client";
-import { Job } from "@/components/data-table/columns";
 import { useNavigate } from "@tanstack/react-router";
 
 export const client = hc<AppRouter>("/");

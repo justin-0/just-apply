@@ -28,22 +28,13 @@ model Session {
   user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
 }
 
-enum JobStatus {
-  Applied
-  Interviewing
-  Rejected
-  Offered
-  Accepted
-  Ghosted
-}
-
 model Job {
-  id      String    @id @default(auto()) @map("_id") @db.ObjectId
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
   role    String
   company String
-  status  JobStatus
-  userId  String    @db.ObjectId
-  user    User      @relation(references: [id], fields: [userId], onDelete: Cascade)
+  status  String
+  userId  String @db.ObjectId
+  user    User   @relation(references: [id], fields: [userId], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

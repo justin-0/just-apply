@@ -1,6 +1,4 @@
 import { Hono } from "hono";
-import { db } from "../lib/prisma";
-import { lucia } from "../lib/auth";
 
 import type { Context } from "../lib/context";
 

@@ -2,7 +2,8 @@
   "name": "server",
   "scripts": {
     "start": "bun ./server/src/index.ts",
-    "dev": "bun run --hot ./server/src/index.ts"
+    "dev": "bun run --hot ./server/src/index.ts",
+    "build:prod": "cd client && bun run build && cd .. && bun run start"
   },
   "dependencies": {
     "@hono/zod-validator": "^0.2.2",

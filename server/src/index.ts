@@ -57,8 +57,8 @@ const routes = app
   .route("/", meRouter)
   .route("/", jobsRouter);
 
-app.get("*", serveStatic({ root: "./client/dist" }));
-app.get("*", serveStatic({ path: "./client/dist/index.html" }));
+app.get("*", serveStatic({ root: "./dist" }));
+app.get("*", serveStatic({ path: "./dist/index.html" }));
 
 export default app;
 export type AppRouter = typeof routes;

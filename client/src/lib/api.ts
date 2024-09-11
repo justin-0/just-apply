@@ -4,7 +4,8 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { AppRouter } from "../../../server/src/index";
-import { hc } from "hono/client";
+import { hc } from "../../../server/node_modules/hono/dist/types/client/index";
+
 import { useNavigate } from "@tanstack/react-router";
 
 export const client = hc<AppRouter>("/");

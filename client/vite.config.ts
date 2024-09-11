@@ -18,7 +18,7 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
       ".prisma/client/index-browser":
-        "../node_modules/.prisma/client/index-browser.js",
+        "../server/node_modules/.prisma/client/index-browser.js",
     },
   },
 });
